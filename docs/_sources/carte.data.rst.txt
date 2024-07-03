@@ -1,0 +1,10 @@
+carte.data package
+==================
+
+Module contents
+---------------
+
+.. automodule:: carte.data
+   :members:
+   :undoc-members:
+   :show-inheritance:

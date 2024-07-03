@@ -1,0 +1,85 @@
+carte.src package
+=================
+
+Submodules
+----------
+
+carte.src.baseline\_multitable module
+-------------------------------------
+
+.. automodule:: carte.src.baseline_multitable
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+carte.src.baseline\_singletable\_nn module
+------------------------------------------
+
+.. automodule:: carte.src.baseline_singletable_nn
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+carte.src.carte\_estimator module
+---------------------------------
+
+.. automodule:: carte.src.carte_estimator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+carte.src.carte\_gridsearch module
+----------------------------------
+
+.. automodule:: carte.src.carte_gridsearch
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+carte.src.carte\_model module
+-----------------------------
+
+.. automodule:: carte.src.carte_model
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+carte.src.carte\_table\_to\_graph module
+----------------------------------------
+
+.. automodule:: carte.src.carte_table_to_graph
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+carte.src.evaluate\_utils module
+--------------------------------
+
+.. automodule:: carte.src.evaluate_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+carte.src.preprocess\_utils module
+----------------------------------
+
+.. automodule:: carte.src.preprocess_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+carte.src.visualization\_utils module
+-------------------------------------
+
+.. automodule:: carte.src.visualization_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: carte.src
+   :members:
+   :undoc-members:
+   :show-inheritance:

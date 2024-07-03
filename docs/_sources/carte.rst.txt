@@ -1,0 +1,21 @@
+carte package
+=============
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   carte.configs
+   carte.data
+   carte.scripts
+   carte.src
+
+Module contents
+---------------
+
+.. automodule:: carte
+   :members:
+   :undoc-members:
+   :show-inheritance:

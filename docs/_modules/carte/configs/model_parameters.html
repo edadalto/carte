@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>carte.configs.model_parameters &mdash; carte 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=8d563738"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            carte
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">carte</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">carte.configs.model_parameters</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for carte.configs.model_parameters</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Parameter distributions for hyperparameter optimization</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">loguniform</span><span class="p">,</span> <span class="n">randint</span><span class="p">,</span> <span class="n">uniform</span><span class="p">,</span> <span class="n">norm</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+
+
+<div class="viewcode-block" id="loguniform_int">
+<a class="viewcode-back" href="../../../carte.configs.html#carte.configs.model_parameters.loguniform_int">[docs]</a>
+<span class="k">class</span> <span class="nc">loguniform_int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Integer valued version of the log-uniform distribution&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_distribution</span> <span class="o">=</span> <span class="n">loguniform</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+<div class="viewcode-block" id="loguniform_int.rvs">
+<a class="viewcode-back" href="../../../carte.configs.html#carte.configs.model_parameters.loguniform_int.rvs">[docs]</a>
+    <span class="k">def</span> <span class="nf">rvs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Random variable sample&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distribution</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="norm_int">
+<a class="viewcode-back" href="../../../carte.configs.html#carte.configs.model_parameters.norm_int">[docs]</a>
+<span class="k">class</span> <span class="nc">norm_int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Integer valued version of the normal distribution&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_distribution</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+<div class="viewcode-block" id="norm_int.rvs">
+<a class="viewcode-back" href="../../../carte.configs.html#carte.configs.model_parameters.norm_int.rvs">[docs]</a>
+    <span class="k">def</span> <span class="nf">rvs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Random variable sample&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distribution</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distribution</span><span class="o">.</span><span class="n">rvs</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="n">param_distributions_total</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+<span class="c1"># carte-gnn</span>
+<span class="n">param_distributions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="n">lr_grid</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e-4</span><span class="p">,</span> <span class="mf">2.5e-4</span><span class="p">,</span> <span class="mf">5e-4</span><span class="p">,</span> <span class="mf">7.5e-4</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">]</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;learning_rate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lr_grid</span>
+<span class="n">param_distributions_total</span><span class="p">[</span><span class="s2">&quot;carte-gnn&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_distributions</span>
+
+<span class="c1"># histgb</span>
+<span class="n">param_distributions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;learning_rate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loguniform</span><span class="p">(</span><span class="mf">1e-2</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;max_depth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;max_leaf_nodes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm_int</span><span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;min_samples_leaf&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm_int</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;l2_regularization&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loguniform</span><span class="p">(</span><span class="mf">1e-6</span><span class="p">,</span> <span class="mf">1e3</span><span class="p">)</span>
+<span class="n">param_distributions_total</span><span class="p">[</span><span class="s2">&quot;histgb&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_distributions</span>
+
+<span class="c1"># catboost</span>
+<span class="n">param_distributions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;max_depth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;learning_rate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loguniform</span><span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;bagging_temperature&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;l2_leaf_reg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loguniform</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;iterations&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">1001</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;one_hot_max_size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">26</span><span class="p">)</span>
+<span class="n">param_distributions_total</span><span class="p">[</span><span class="s2">&quot;catboost&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_distributions</span>
+
+<span class="c1"># xgb</span>
+<span class="n">param_distributions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;n_estimators&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">1001</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;max_depth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;min_child_weight&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loguniform</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;subsample&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uniform</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;learning_rate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loguniform</span><span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;colsample_bylevel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uniform</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;colsample_bytree&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uniform</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;gamma&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loguniform</span><span class="p">(</span><span class="mf">1e-8</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;lambda&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loguniform</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;alpha&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loguniform</span><span class="p">(</span><span class="mf">1e-8</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">param_distributions_total</span><span class="p">[</span><span class="s2">&quot;xgb&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_distributions</span>
+
+<span class="c1"># RandomForest</span>
+<span class="n">param_distributions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;n_estimators&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">250</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;max_depth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;max_features&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;sqrt&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;log2&quot;</span><span class="p">,</span>
+    <span class="kc">None</span><span class="p">,</span>
+    <span class="mf">0.1</span><span class="p">,</span>
+    <span class="mf">0.2</span><span class="p">,</span>
+    <span class="mf">0.3</span><span class="p">,</span>
+    <span class="mf">0.4</span><span class="p">,</span>
+    <span class="mf">0.5</span><span class="p">,</span>
+    <span class="mf">0.6</span><span class="p">,</span>
+    <span class="mf">0.7</span><span class="p">,</span>
+    <span class="mf">0.8</span><span class="p">,</span>
+    <span class="mf">0.9</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;min_samples_leaf&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loguniform_int</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">50.5</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;bootstrap&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;min_impurity_decrease&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">]</span>
+<span class="n">param_distributions_total</span><span class="p">[</span><span class="s2">&quot;randomforest&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_distributions</span>
+
+
+<span class="c1"># resnet</span>
+<span class="n">param_distributions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;normalization&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;batchnorm&quot;</span><span class="p">,</span> <span class="s2">&quot;layernorm&quot;</span><span class="p">]</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;num_layers&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;hidden_dim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">513</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;hidden_factor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;hidden_dropout_prob&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uniform</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;residual_dropout_prob&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uniform</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;learning_rate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loguniform</span><span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;weight_decay&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loguniform</span><span class="p">(</span><span class="mf">1e-8</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;batch_size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">]</span>
+<span class="n">param_distributions_total</span><span class="p">[</span><span class="s2">&quot;resnet&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_distributions</span>
+
+<span class="c1"># mlp</span>
+<span class="n">param_distributions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;hidden_dim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="o">**</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">11</span><span class="p">)]</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;num_layers&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;dropout_prob&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uniform</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;learning_rate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loguniform</span><span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;weight_decay&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loguniform</span><span class="p">(</span><span class="mf">1e-8</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">)</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;batch_size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">]</span>
+<span class="n">param_distributions_total</span><span class="p">[</span><span class="s2">&quot;mlp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_distributions</span>
+
+<span class="c1"># ridge regression</span>
+<span class="n">param_distributions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;solver&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;svd&quot;</span><span class="p">,</span> <span class="s2">&quot;cholesky&quot;</span><span class="p">,</span> <span class="s2">&quot;lsqr&quot;</span><span class="p">,</span> <span class="s2">&quot;sag&quot;</span><span class="p">]</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;alpha&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loguniform</span><span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">param_distributions_total</span><span class="p">[</span><span class="s2">&quot;ridge&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_distributions</span>
+
+<span class="c1"># logistic regression</span>
+<span class="n">param_distributions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;solver&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;newton-cg&quot;</span><span class="p">,</span> <span class="s2">&quot;lbfgs&quot;</span><span class="p">,</span> <span class="s2">&quot;liblinear&quot;</span><span class="p">]</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;penalty&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;l1&quot;</span><span class="p">,</span> <span class="s2">&quot;l2&quot;</span><span class="p">,</span> <span class="s2">&quot;elasticnet&quot;</span><span class="p">]</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;C&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loguniform</span><span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">param_distributions_total</span><span class="p">[</span><span class="s2">&quot;logistic&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_distributions</span>
+
+<span class="c1"># tabpfn</span>
+<span class="n">param_distributions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="n">param_distributions_total</span><span class="p">[</span><span class="s2">&quot;tabpfn&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_distributions</span>
+
+<span class="c1"># catboost-multitable</span>
+<span class="n">param_distributions</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">param_distributions_total</span><span class="p">[</span><span class="s2">&quot;catboost&quot;</span><span class="p">])</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;source_fraction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">param_distributions_total</span><span class="p">[</span><span class="s2">&quot;catboost-multitable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_distributions</span>
+
+<span class="c1"># histgb-multitable</span>
+<span class="n">param_distributions</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">param_distributions_total</span><span class="p">[</span><span class="s2">&quot;histgb&quot;</span><span class="p">])</span>
+<span class="n">param_distributions</span><span class="p">[</span><span class="s2">&quot;source_fraction&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">param_distributions_total</span><span class="p">[</span><span class="s2">&quot;histgb-multitable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_distributions</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Myung Jun Kim, Léo Grinsztajn, Gaël Varoquaux.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
