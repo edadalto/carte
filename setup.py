@@ -2,10 +2,10 @@
 
 from setuptools import setup, find_packages
 
-with open('History.rst') as history_file:
-    history = history_file.read()
+def parse_requirements(filename):
+    with open(filename, "r") as file:
+        return file.read().splitlines()
 
-requirements = []
 test_requirements = []
 
 setup(
@@ -30,12 +30,12 @@ setup(
       Indeed, transfer learning on tables hits the challenge of data integration: finding correspondences,
        correspondences in the entries (entity matching) where different words may denote the same entity, correspondences across columns (schema matching),
         which may come in different orders, names... We propose a neural architecture that does not need such correspondences.
-         As a result, we can pretrain it on background data that has not been matched. 
+         As a result, we can pretrain it on background data that has not been matched.
          The architecture -- CARTE for Context Aware Representation of Table Entries -- uses a graph representation of tabular (or relational) data to process tables with different columns,
         string embedding of entries and columns names to model an open vocabulary, and a graph-attentional network to contextualize entries with column names and neighboring entries.
          An extensive benchmark shows that CARTE facilitates learning, outperforming a solid set of baselines including the best tree-based models.
            CARTE also enables joint learning across tables with unmatched columns, enhancing a small table with bigger ones. CARTE opens the door to large pretrained models for tabular data.""",
-    install_requires=["numpy", "pandas", "scipy", "scikit-learn", "skrub","torch","torch-geometric","torcheval","torch_scatter"],
+    install_requires=parse_requirements("requirements.txt"),
     license="MIT license",
     keywords='carte',
     name='carte',
