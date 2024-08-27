@@ -11,7 +11,7 @@ test_requirements = []
 setup(
     author="""Myung Jun Kim, Léo Grinsztajn, Gaël Varoquaux""",
     author_email='test@gmail.com',
-    python_requires='>=3.10,<4.0',
+    python_requires='>=3.10.12,<4.0',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
@@ -48,6 +48,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/soda-inria/carte',
-    version='0.0.9',
+    version='0.0.10',
     zip_safe=False,
 )

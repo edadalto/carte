@@ -3,7 +3,6 @@ aiohttp==3.10.5
 aiosignal==1.3.1
 async-timeout==4.0.3
 attrs==24.2.0
--e git+ssh://git@github.com/edadalto/carte.git@8ff595b776eb5db2b20b90abfcadef4f9f24d554#egg=carte
 catboost==1.2.5
 certifi==2024.7.4
 charset-normalizer==3.3.2
