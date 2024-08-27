@@ -7,7 +7,7 @@ scikit-learn>=1.5.0
 skrub>=0.1.1
 torch-geometric>=2.5.3
 torcheval>=0.0.7
-torch_scatter
+torch_scatter --install-option="--no-use-pep517"
 numpy>=1.25.0
 catboost
 xgboost
