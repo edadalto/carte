@@ -9,7 +9,7 @@ torch-geometric>=2.5.3
 torcheval>=0.0.7
 setuptools
 wheel
-torch_scatter
+torch-scatter==2.1.2 --no-use-pep517
 numpy>=1.25.0
 catboost
 xgboost
