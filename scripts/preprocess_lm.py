@@ -2,39 +2,43 @@
 """
 
 # >>>
-if __name__ == '__main__':
+if __name__ == "__main__":
     import os
     import sys
 
     _project_dir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-    os.environ['PROJECT_DIR'] = _project_dir
+    os.environ["PROJECT_DIR"] = _project_dir
     sys.path.append(_project_dir)
     del _project_dir
 # <<<
 
-import pandas as pd
-import numpy as np
-import pickle
 import json
 import os
-from configs.directory import config_directory
+import pickle
+
+import numpy as np
+import pandas as pd
+
 from configs.carte_configs import carte_datalist
+from configs.directory import config_directory
 from src.preprocess_utils import (
     extract_fasttext_features,
     extract_llm_features,
     table2llmfeatures,
-)   
+)
 
 
 def data_preprocess(data_name: str, device: str = "cuda:0"):
-    
+
     # Load data
     data_pd_dir = f"{config_directory['data_singletable']}/{data_name}/raw.parquet"
     data_pd = pd.read_parquet(data_pd_dir)
     data_pd.fillna(value=np.nan, inplace=True)
 
     # Basic settings for the data
-    config_data_dir = f"{config_directory['data_singletable']}/{data_name}/config_data.json"
+    config_data_dir = (
+        f"{config_directory['data_singletable']}/{data_name}/config_data.json"
+    )
     filename = open(config_data_dir)
     config_data = json.load(filename)
 

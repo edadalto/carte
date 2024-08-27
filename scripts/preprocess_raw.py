@@ -11,13 +11,15 @@ if __name__ == "__main__":
     del _project_dir
 # <<<
 
-import os
-import json
 import ast
-import pandas as pd
+import json
+import os
+
 import numpy as np
-from configs.directory import config_directory
+import pandas as pd
+
 from configs.carte_configs import carte_datalist
+from configs.directory import config_directory
 
 
 def _drop_high_null(data, proportion=0.5):

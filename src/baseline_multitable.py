@@ -1,21 +1,21 @@
 """Baselines for multitable problem."""
 
-import pandas as pd
-import numpy as np
-
 from typing import Union
-from sklearn.model_selection import train_test_split
-from sklearn.base import BaseEstimator, RegressorMixin, ClassifierMixin
-from sklearn.utils.validation import check_is_fitted, check_random_state
-from sklearn.metrics import r2_score, roc_auc_score
-from joblib import Parallel, delayed
 
-from catboost import CatBoostRegressor, CatBoostClassifier
-from xgboost import XGBRegressor, XGBClassifier
+import numpy as np
+import pandas as pd
+from catboost import CatBoostClassifier, CatBoostRegressor
+from joblib import Parallel, delayed
+from sklearn.base import BaseEstimator, ClassifierMixin, RegressorMixin
 from sklearn.ensemble import (
-    HistGradientBoostingRegressor,
     HistGradientBoostingClassifier,
+    HistGradientBoostingRegressor,
 )
+from sklearn.metrics import r2_score, roc_auc_score
+from sklearn.model_selection import train_test_split
+from sklearn.utils.validation import check_is_fitted, check_random_state
+from xgboost import XGBClassifier, XGBRegressor
+
 
 class GradientBoostingMultitableBase(BaseEstimator):
     """Base class for Gradient Boosting Multitable Estimator."""
@@ -77,7 +77,6 @@ class GradientBoostingMultitableBase(BaseEstimator):
         self.is_fitted_ = True
 
         return self
-    
 
     def _run_fit_with_source_split(self, X, y, random_state):
         """Train each model corresponding to the random_state with the split on Source and train/validtion on Target.
@@ -219,14 +218,21 @@ class GradientBoostingMultitableBase(BaseEstimator):
             histgb_params["min_samples_leaf"] = self.min_samples_leaf
             histgb_params["l2_regularization"] = self.l2_regularization
             if self._estimator_type == "regressor":
-                estimator_ = HistGradientBoostingRegressor(**fixed_params, **histgb_params)
+                estimator_ = HistGradientBoostingRegressor(
+                    **fixed_params, **histgb_params
+                )
             else:
-                estimator_ = HistGradientBoostingClassifier(**fixed_params, **histgb_params)
+                estimator_ = HistGradientBoostingClassifier(
+                    **fixed_params, **histgb_params
+                )
         return estimator_
 
-    def _set_gb_method(self,):
+    def _set_gb_method(
+        self,
+    ):
         self.gb_method_ = None
         return None
+
 
 class GradientBoostingRegressorBase(RegressorMixin, GradientBoostingMultitableBase):
     """Base class for Gradient Boosting Multitable Regressor."""
@@ -243,11 +249,11 @@ class GradientBoostingRegressorBase(RegressorMixin, GradientBoostingMultitableBa
     ):
         super(GradientBoostingRegressorBase, self).__init__(
             source_data=source_data,
-            source_fraction = source_fraction,
-            num_model = num_model,
-            val_size = val_size,
-            random_state = random_state,
-            n_jobs = n_jobs,
+            source_fraction=source_fraction,
+            num_model=num_model,
+            val_size=val_size,
+            random_state=random_state,
+            n_jobs=n_jobs,
         )
 
     def predict(self, X):
@@ -294,11 +300,11 @@ class GradientBoostingClassifierBase(ClassifierMixin, GradientBoostingMultitable
     ):
         super(GradientBoostingClassifierBase, self).__init__(
             source_data=source_data,
-            source_fraction = source_fraction,
-            num_model = num_model,
-            val_size = val_size,
-            random_state = random_state,
-            n_jobs = n_jobs,
+            source_fraction=source_fraction,
+            num_model=num_model,
+            val_size=val_size,
+            random_state=random_state,
+            n_jobs=n_jobs,
         )
 
     def predict(self, X):
@@ -373,11 +379,11 @@ class CatBoostMultitableRegressor(GradientBoostingRegressorBase):
     ):
         super(CatBoostMultitableRegressor, self).__init__(
             source_data=source_data,
-            source_fraction = source_fraction,
-            num_model = num_model,
-            val_size = val_size,
-            random_state = random_state,
-            n_jobs = n_jobs,
+            source_fraction=source_fraction,
+            num_model=num_model,
+            val_size=val_size,
+            random_state=random_state,
+            n_jobs=n_jobs,
         )
 
         self.max_depth = max_depth
@@ -388,9 +394,11 @@ class CatBoostMultitableRegressor(GradientBoostingRegressorBase):
         self.iterations = iterations
         self.thread_count = thread_count
 
-    def _set_gb_method(self,):
+    def _set_gb_method(
+        self,
+    ):
         """Set the Gradient-Boosting method.
-        
+
         For CatBoost, it sets the required indicators of categorical columns.
         """
         self.gb_method_ = "catboost"
@@ -427,11 +435,11 @@ class CatBoostMultitableClassifier(GradientBoostingClassifierBase):
     ):
         super(CatBoostMultitableClassifier, self).__init__(
             source_data=source_data,
-            source_fraction = source_fraction,
-            num_model = num_model,
-            val_size = val_size,
-            random_state = random_state,
-            n_jobs = n_jobs,
+            source_fraction=source_fraction,
+            num_model=num_model,
+            val_size=val_size,
+            random_state=random_state,
+            n_jobs=n_jobs,
         )
 
         self.max_depth = max_depth
@@ -442,9 +450,11 @@ class CatBoostMultitableClassifier(GradientBoostingClassifierBase):
         self.iterations = iterations
         self.thread_count = thread_count
 
-    def _set_gb_method(self,):
+    def _set_gb_method(
+        self,
+    ):
         """Set the Gradient-Boosting method.
-        
+
         For CatBoost, it sets the required indicators of categorical columns.
         """
         self.gb_method_ = "catboost"
@@ -457,6 +467,7 @@ class CatBoostMultitableClassifier(GradientBoostingClassifierBase):
             X_total_train.columns.get_loc(col) for col in self.cat_col_names_
         ]
         return None
+
 
 class HistGBMultitableRegressor(GradientBoostingRegressorBase):
     """Base class for Historgram Gradient Boosting Multitable Regressor."""
@@ -478,11 +489,11 @@ class HistGBMultitableRegressor(GradientBoostingRegressorBase):
     ):
         super(HistGBMultitableRegressor, self).__init__(
             source_data=source_data,
-            source_fraction = source_fraction,
-            num_model = num_model,
-            val_size = val_size,
-            random_state = random_state,
-            n_jobs = n_jobs,
+            source_fraction=source_fraction,
+            num_model=num_model,
+            val_size=val_size,
+            random_state=random_state,
+            n_jobs=n_jobs,
         )
 
         self.learning_rate = learning_rate
@@ -491,11 +502,13 @@ class HistGBMultitableRegressor(GradientBoostingRegressorBase):
         self.min_samples_leaf = min_samples_leaf
         self.l2_regularization = l2_regularization
 
-    def _set_gb_method(self,):
+    def _set_gb_method(
+        self,
+    ):
         """Set the Gradient-Boosting method."""
         self.gb_method_ = "histgb"
         return None
-    
+
 
 class HistGBMultitableClassifier(GradientBoostingClassifierBase):
     """Base class for Historgram Gradient Boosting Multitable Classifier."""
@@ -517,11 +530,11 @@ class HistGBMultitableClassifier(GradientBoostingClassifierBase):
     ):
         super(HistGBMultitableClassifier, self).__init__(
             source_data=source_data,
-            source_fraction = source_fraction,
-            num_model = num_model,
-            val_size = val_size,
-            random_state = random_state,
-            n_jobs = n_jobs,
+            source_fraction=source_fraction,
+            num_model=num_model,
+            val_size=val_size,
+            random_state=random_state,
+            n_jobs=n_jobs,
         )
 
         self.learning_rate = learning_rate
@@ -530,7 +543,9 @@ class HistGBMultitableClassifier(GradientBoostingClassifierBase):
         self.min_samples_leaf = min_samples_leaf
         self.l2_regularization = l2_regularization
 
-    def _set_gb_method(self,):
+    def _set_gb_method(
+        self,
+    ):
         """Set the Gradient-Boosting method."""
         self.gb_method_ = "histgb"
         return None
@@ -561,11 +576,11 @@ class XGBoostMultitableRegressor(GradientBoostingRegressorBase):
     ):
         super(XGBoostMultitableRegressor, self).__init__(
             source_data=source_data,
-            source_fraction = source_fraction,
-            num_model = num_model,
-            val_size = val_size,
-            random_state = random_state,
-            n_jobs = n_jobs,
+            source_fraction=source_fraction,
+            num_model=num_model,
+            val_size=val_size,
+            random_state=random_state,
+            n_jobs=n_jobs,
         )
 
         self.n_estimators = n_estimators
@@ -579,7 +594,9 @@ class XGBoostMultitableRegressor(GradientBoostingRegressorBase):
         self.reg_lambda = reg_lambda
         self.reg_alpha = reg_alpha
 
-    def _set_gb_method(self,):
+    def _set_gb_method(
+        self,
+    ):
         """Set the Gradient-Boosting method."""
         self.gb_method_ = "xgboost"
         return None
@@ -610,11 +627,11 @@ class XGBoostMultitableClassifier(GradientBoostingClassifierBase):
     ):
         super(XGBoostMultitableClassifier, self).__init__(
             source_data=source_data,
-            source_fraction = source_fraction,
-            num_model = num_model,
-            val_size = val_size,
-            random_state = random_state,
-            n_jobs = n_jobs,
+            source_fraction=source_fraction,
+            num_model=num_model,
+            val_size=val_size,
+            random_state=random_state,
+            n_jobs=n_jobs,
         )
 
         self.n_estimators = n_estimators
@@ -628,7 +645,9 @@ class XGBoostMultitableClassifier(GradientBoostingClassifierBase):
         self.reg_lambda = reg_lambda
         self.reg_alpha = reg_alpha
 
-    def _set_gb_method(self,):
+    def _set_gb_method(
+        self,
+    ):
         """Set the Gradient-Boosting method."""
         self.gb_method_ = "xgboost"
         return None

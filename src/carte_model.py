@@ -4,9 +4,10 @@ CARTE neural network model used for pretraining and downstream tasks.
 """
 
 import math
+from typing import Tuple
+
 import torch
 import torch.nn as nn
-from typing import Tuple
 from torch import Tensor
 from torch_geometric.utils import softmax
 from torch_scatter import scatter
@@ -236,7 +237,7 @@ class CARTE_Base(nn.Module):
         input_dim_e: int,
         hidden_dim: int,
         num_layers: int,
-        **block_args
+        **block_args,
     ):
         super(CARTE_Base, self).__init__()
 
@@ -288,7 +289,7 @@ class CARTE_Pretrain(nn.Module):
         input_dim_e: int,
         hidden_dim: int,
         num_layers: int,
-        **block_args
+        **block_args,
     ):
         super(CARTE_Pretrain, self).__init__()
 
@@ -297,7 +298,7 @@ class CARTE_Pretrain(nn.Module):
             input_dim_e=input_dim_e,
             hidden_dim=hidden_dim,
             num_layers=num_layers,
-            **block_args
+            **block_args,
         )
 
         self.pretrain_classifier = nn.Sequential(
@@ -333,7 +334,7 @@ class CARTE_NN_Model(nn.Module):
         hidden_dim: int,
         output_dim: int,
         num_layers: int,
-        **block_args
+        **block_args,
     ):
         super(CARTE_NN_Model, self).__init__()
 
@@ -342,7 +343,7 @@ class CARTE_NN_Model(nn.Module):
             input_dim_e=input_dim_e,
             hidden_dim=hidden_dim,
             num_layers=num_layers,
-            **block_args
+            **block_args,
         )
 
         self.ft_classifier = nn.Sequential(

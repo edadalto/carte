@@ -1,15 +1,15 @@
+from ast import literal_eval
 
 import numpy as np
 import pandas as pd
-
-from ast import literal_eval
 from sklearn.metrics import (
-    r2_score,
-    root_mean_squared_error,
-    roc_auc_score,
     average_precision_score,
+    r2_score,
+    roc_auc_score,
+    root_mean_squared_error,
 )
 from sklearn.model_selection import GroupShuffleSplit
+
 from configs.directory import config_directory
 
 
@@ -75,6 +75,7 @@ def set_score_criterion(task):
     score_criterion += ["inference_time"]
     score_criterion += ["run_time"]
     return scoring, score_criterion
+
 
 def shorten_param(param_name):
     """Shorten the param_names for column names in search results."""

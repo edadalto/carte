@@ -11,41 +11,42 @@ if __name__ == "__main__":
     del _project_dir
 # <<<
 
+import copy
+import json
 import os
 import pickle
-import json
-import pandas as pd
-import numpy as np
-import copy
 
-from sklearn.pipeline import Pipeline
+import numpy as np
+import pandas as pd
+from catboost import CatBoostClassifier, CatBoostRegressor
 from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import TargetEncoder, MinMaxScaler
-from sklearn.impute import SimpleImputer
 from sklearn.decomposition import PCA
-from sklearn.model_selection import ParameterGrid
-from configs.directory import config_directory
-from configs.carte_configs import carte_datalist, carte_singletable_baselines
-from src.evaluate_utils import *
-from src.carte_estimator import CARTERegressor, CARTEClassifier
-from catboost import CatBoostRegressor, CatBoostClassifier
-from xgboost import XGBRegressor, XGBClassifier
-from tabpfn import TabPFNClassifier
 from sklearn.ensemble import (
-    HistGradientBoostingRegressor,
-    HistGradientBoostingClassifier,
-    RandomForestRegressor,
-    RandomForestClassifier,
-    BaggingRegressor,
     BaggingClassifier,
+    BaggingRegressor,
+    HistGradientBoostingClassifier,
+    HistGradientBoostingRegressor,
+    RandomForestClassifier,
+    RandomForestRegressor,
 )
-from sklearn.linear_model import Ridge, LogisticRegression
+from sklearn.impute import SimpleImputer
+from sklearn.linear_model import LogisticRegression, Ridge
+from sklearn.model_selection import ParameterGrid
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import MinMaxScaler, TargetEncoder
+from tabpfn import TabPFNClassifier
+from xgboost import XGBClassifier, XGBRegressor
+
+from configs.carte_configs import carte_datalist, carte_singletable_baselines
+from configs.directory import config_directory
 from src.baseline_singletable_nn import (
-    MLPRegressor,
     MLPClassifier,
-    RESNETRegressor,
+    MLPRegressor,
     RESNETClassifier,
+    RESNETRegressor,
 )
+from src.carte_estimator import CARTEClassifier, CARTERegressor
+from src.evaluate_utils import *
 
 
 def _load_data(data_name):

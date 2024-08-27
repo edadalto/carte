@@ -3,16 +3,17 @@ Functions that can be utilized for visualization.
 For Critical difference diagram, it modifies some of the codes from scikit-posthocs.
 """
 
-import pandas as pd
+from typing import Dict, List, Set, Tuple, Union
+
 import numpy as np
-from typing import Union, List, Tuple, Dict, Set
-from matplotlib import colors
+import pandas as pd
+from matplotlib import colors, pyplot
 from matplotlib.axes import SubplotBase
-from matplotlib.colorbar import ColorbarBase, Colorbar
+from matplotlib.colorbar import Colorbar, ColorbarBase
 from matplotlib.colors import ListedColormap
-from matplotlib import pyplot
 from pandas import DataFrame, Series
 from seaborn import heatmap
+
 from carte.configs.carte_configs import carte_singletable_baseline_mapping
 from carte.configs.directory import config_directory
 

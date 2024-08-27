@@ -1,17 +1,18 @@
 """Neural network baseline for comparison."""
 
-import torch
-import torch.nn as nn
-import numpy as np
 import copy
 from typing import Union
-from torch import Tensor
-from sklearn.base import BaseEstimator, RegressorMixin, ClassifierMixin
+
+import numpy as np
+import torch
+import torch.nn as nn
+from joblib import Parallel, delayed
+from sklearn.base import BaseEstimator, ClassifierMixin, RegressorMixin
 from sklearn.model_selection import train_test_split
 from sklearn.utils.validation import check_is_fitted, check_random_state
-from torch.utils.data import Dataset, DataLoader
+from torch import Tensor
+from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
-from joblib import Parallel, delayed
 
 
 ## Simple MLP model
@@ -108,7 +109,7 @@ class RESNET_Model(nn.Module):
         hidden_dim: int,
         output_dim: int,
         num_layers: int,
-        **block_args
+        **block_args,
     ):
         super(RESNET_Model, self).__init__()
 

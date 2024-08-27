@@ -2,10 +2,11 @@
 
 import ast
 import copy
-import pandas as pd
-import numpy as np
-from joblib import Parallel, delayed
 from time import perf_counter
+
+import numpy as np
+import pandas as pd
+from joblib import Parallel, delayed
 from sklearn.model_selection import ParameterGrid
 
 

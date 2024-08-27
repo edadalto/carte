@@ -11,42 +11,43 @@ if __name__ == "__main__":
     del _project_dir
 # <<<
 
+import copy
+import json
 import os
 import pickle
-import json
-import pandas as pd
-import numpy as np
-import copy
 
-from sklearn.pipeline import Pipeline
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import MinMaxScaler
+import numpy as np
+import pandas as pd
+from catboost import CatBoostClassifier, CatBoostRegressor
 from category_encoders import TargetEncoder
-from sklearn.impute import SimpleImputer
+from sklearn.compose import ColumnTransformer
 from sklearn.decomposition import PCA
-from sklearn.model_selection import ParameterGrid
-from carte.configs.directory import config_directory
-from carte.configs.carte_configs import carte_datalist, carte_singletable_baselines
-from carte.src.evaluate_utils import *
-from carte.src.carte_estimator_new import CARTERegressor, CARTEClassifier
-from catboost import CatBoostRegressor, CatBoostClassifier
-from xgboost import XGBRegressor, XGBClassifier
-from tabpfn import TabPFNClassifier
 from sklearn.ensemble import (
-    HistGradientBoostingRegressor,
-    HistGradientBoostingClassifier,
-    RandomForestRegressor,
-    RandomForestClassifier,
-    BaggingRegressor,
     BaggingClassifier,
+    BaggingRegressor,
+    HistGradientBoostingClassifier,
+    HistGradientBoostingRegressor,
+    RandomForestClassifier,
+    RandomForestRegressor,
 )
-from sklearn.linear_model import Ridge, LogisticRegression
+from sklearn.impute import SimpleImputer
+from sklearn.linear_model import LogisticRegression, Ridge
+from sklearn.model_selection import ParameterGrid
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import MinMaxScaler
+from tabpfn import TabPFNClassifier
+from xgboost import XGBClassifier, XGBRegressor
+
+from carte.configs.carte_configs import carte_datalist, carte_singletable_baselines
+from carte.configs.directory import config_directory
 from carte.src.baseline_singletable_nn import (
-    MLPRegressor,
     MLPClassifier,
-    RESNETRegressor,
+    MLPRegressor,
     RESNETClassifier,
+    RESNETRegressor,
 )
+from carte.src.carte_estimator_new import CARTEClassifier, CARTERegressor
+from carte.src.evaluate_utils import *
 
 
 def _load_data(data_name):
