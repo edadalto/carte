@@ -364,7 +364,7 @@ class BaseCARTEEstimator(BaseEstimator):
         # Load the pretrained weights if specified
         if self.load_pretrain:
             dir_model = config_directory["pretrained_model"]
-            pretrain_model_dict = torch.load(dir_model, map_location=self.device_)
+            pretrain_model_dict = torch.load(dir_model, map_location=self.device_, weights_only=True)
             initial_x_keys = [
                 key for key in pretrain_model_dict.keys() if "initial_x" in key
             ]
@@ -1400,7 +1400,7 @@ class CARTE_AblationRegressor(CARTERegressor):
         if self.load_pretrain:
             dir_model = config_directory["pretrained_model"]
             model.load_state_dict(
-                torch.load(dir_model, map_location=self.device_), strict=False
+                torch.load(dir_model, map_location=self.device_, weights_only=True), strict=False
             )
         # Freeze the pretrained weights if specified
         if self.freeze_pretrain:
@@ -1543,7 +1543,7 @@ class CARTE_AblationClassifier(CARTEClassifier):
         # Load the pretrained weights if specified
         if self.load_pretrain:
             dir_model = config_directory["pretrained_model"]
-            pretrain_model_dict = torch.load(dir_model, map_location=self.device_)
+            pretrain_model_dict = torch.load(dir_model, map_location=self.device_, weights_only=True)
             initial_x_keys = [
                 key for key in pretrain_model_dict.keys() if "initial_x" in key
             ]
